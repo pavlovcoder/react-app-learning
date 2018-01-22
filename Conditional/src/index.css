@@ -1,0 +1,84 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.alert.alert-success, .alert.alert-warning {
+  margin: 30px;
+}
+
+button {
+  margin-left: 30px;
+}
+
+.warning {
+  width: 100%;
+  padding: 30px 50px;
+  text-align: center;
+  background-color: red;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.btnWarning {
+  width: 100%;
+  text-align: center;
+  margin-left: 0;
+  background-color: #000000;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  padding: 10px;
+}
+
+.first-list {
+  border: 0.5px solid #000000;
+  padding: 15px 30px;
+  margin: 15px;
+}
+
+.react-section, .react-section2, .react-section3, .react-section-4, #react-section-5, #react-section-6 {
+  border: 0.5px solid #a6a6a6;
+  padding: 15px 30px;
+  background-color: #cccccc;
+  margin: 15px;
+  color: #404040;
+  float: left;
+}
+
+.each-article {
+  float: left;
+  width: 22.323%;
+  margin: 10px 20px;
+  border: 1px solid #737373;
+  display: block;
+}
+
+.articles-title, .articles-divider, .articles-content {
+  padding: 0 20px;
+}
+
+
+.articles-container, .articles-block {
+  width: 100%;
+}
+
+.images-of-articles {
+  width: 100%;
+  height: 300px;
+  border: 1px solid #cccccc;
+  margin-bottom: 20px;
+}
+
+.articles-btn {
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-bottom: 5%;
+  text-align: center;
+  cursor: pointer;
+}
+
+
+

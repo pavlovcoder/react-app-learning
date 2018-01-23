@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.check-block {
+  margin: 15px 100px;
+}
+
+.minimum {
+  color: #ff9900;
+}
+
+.recommended {
+  color: #009933;
+}
+
+.not-enough, .undefined-type {
+  color: #ff3300;
+}
+
+.empty {
+  color: #0033cc;
+}

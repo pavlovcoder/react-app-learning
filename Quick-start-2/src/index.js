@@ -3,115 +3,140 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-//Create a special application for checking enough of technical requirements for succesfully start a game Far Cry 5, which release will at 2018 year:
-function CheckSystemFunction(props){
-    switch(props.check){
-        case 'CPU-type':
-            CheckingCPU(props.preq);
-            break;
-    }
+const scaleNames = {
+  c: 'Celsius',
+  f: 'Fahrenheit',
+  k: 'Kelvin'
+};
+
+//Converting functions for celsius:
+function FahrenheitToCelsius(fahrenheit){
+  return (fahrenheit-32)*5/9;
 }
 
-function CheckingCPU(props){
-    if(props.CPU === 'Intel Core i5-2400' || props.CPU === 'AMD FX-6300'){
-        return <p className="minimum">It's minimum system requirements!</p>;
-    } else if(props.CPU === 'Intel Core i7-4770' || props.CPU === 'AMD Ryzen 5 1600'){
-        return <p className="recommended">It's a recommended system requirements!</p>;
-    } else if(props.CPU === ''){
-        return <p className="empty">Please, provide type of CPU for start checking...</p>
-    } else if(props.CPU === 'Intel Core i3'){
-        return <p className="not-enough">It's not enough system requirements for minimum performance!</p>;
-    } else {
-        return <p className="undefined-type">Undefined type of CPU...</p>;
-    }
+function KelvinToCelsius(kelvin){
+  return kelvin-273.15;
 }
 
-function CheckingCPUSpeed(props){
-    if(props.CPUSpeed <= 3.2){
-        return <p className="not-enough">It's not enough system requirements for minimum performance!</p>;
-    } else if(props.CPUSpeed >= 3.4){
-        return <p className="minimum">It's minimum system requirements!</p>;
-    } else if(props.CPUSpeed === ''){
-        return <p className="empty">Please, provide average frequency of CPU for start checking...</p>
-    } else if(props.CPUSpeed > 4) {
-        return <p className="recommended">It's a recomended system requirements!</p>;
-    }
+//Converting functions for fahrenheit:
+function CelsiusToFahrenheit(celsius){
+  return (celsius*9/5)+32;
 }
 
-/*function checkingRAM(props){
-    if(props.RAM < 8){
-        return <p>It's not enough system requirements for minimum performance!</p>;
-    } else {
-        return <p>It's recomended system requirements!</p>;
-    }
+function KelvinToFahrenheit(kelvin){
+  return (kelvin*9/5)-459.67;
 }
 
-function checkingVideoCard(props){
-    if(props.videoCard === 'NVIDIA GeForce GTX 670' || props.videoCard === 'AMD R9 270'){
-        return <p>It's minimum system requirements!</p>;
-    } else if(props.videoCard === 'NVIDIA GeForce GTX 970' || props.videoCard === 'AMD R9 290X'){
-        return <p>It's recomended system requirements!</p>
-    } else {
-        return <p>Undefined type of video-card!</p>;
-    }
-}*/
+//Converting functions for kelvin:
+function CelsiusToKelvin(celsius){
+  return celsius+273.15;
+}
 
-class CheckSystem extends React.Component {
-    constructor(props){
-        super(props);
-        this.handleChangeCPU = this.handleChangeCPU.bind(this);
-        this.handleChangeCPUSpeed = this.handleChangeCPUSpeed.bind(this);
-        this.handleChangeRAM = this.handleChangeRAM.bind(this);
-        this.handleChangeVideoCard = this.handleChangeVideoCard.bind(this);
-        this.state = {
-            CPU: '',
-            CPUSPeed: '',
-            RAM: '',
-            VideoCard: ''
-        };
+function FahrenheitToKelvin(fahrenheit){
+  return (fahrenheit+459.67)*5/9;
+}
+
+function tryConvert(temperature,convert){
+  const input = parseFloat(temperature);
+  if(Number.isNaN(input)){
+    return '';
+  }
+  const output = convert(input);
+  const rounded = Math.round(output*1000)/1000;
+  return rounded.toString();
+}
+
+function BoilingVerdict(props){
+  if(props.celsius >= 100){
+    return <p className="boil">The water would boil.</p>;
+  }
+  return <p className="not-boil">The water would not boil.</p>;
+}
+
+class TemperatureInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e){
+    this.props.onTemperatureChange(e.target.value);
+  }
+
+  render(){
+    const temperature = this.props.temperature;
+    const scale = this.props.scale;
+    return (
+      <fieldset>
+        <legend>Enter temperature in {scaleNames[scale]}:</legend>
+        <input value={temperature} onChange={this.handleChange}/>
+      </fieldset>
+    );
+  }
+}
+
+class Calculator extends React.Component {
+  constructor(props){
+    super(props);
+    this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+    this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+    this.handleKelvinChange = this.handleKelvinChange.bind(this);
+    this.state = {temperature: '', scale: 'c'};
+  }
+
+  handleCelsiusChange(temperature){
+    this.setState({scale: 'c', temperature});
+  }
+
+  handleFahrenheitChange(temperature){
+    this.setState({scale: 'f', temperature});
+  }
+
+  handleKelvinChange(temperature){
+    this.setState({scale: 'k', temperature});
+  }
+
+  render() {
+    const scale = this.state.scale;
+    const temperature = this.state.temperature;
+    var celsius;
+    var fahrenheit;
+    var kelvin;
+    if(scale === 'c'){
+      celsius = temperature;
+      fahrenheit = tryConvert(temperature, CelsiusToFahrenheit);
+      kelvin = tryConvert(temperature, CelsiusToKelvin);
+    } else if(scale === 'f'){
+      celsius = tryConvert(temperature, FahrenheitToCelsius);
+      kelvin = tryConvert(temperature, FahrenheitToKelvin);
+    } else if(scale === 'k'){
+      celsius = tryConvert(temperature, KelvinToCelsius);
+      fahrenheit = tryConvert(temperature, KelvinToFahrenheit);
     }
-    
-    handleChangeCPU(e) {
-        this.setState({CPU: e.target.value});
-    }
-    
-    handleChangeCPUSpeed(e){
-        this.setState({CPUSpeed: e.target.value});
-    }
-    
-    handleChangeRAM(e){
-        this.setState({RAM: e.target.value});
-    }
-    
-    handleChangeVideoCard(e){
-        this.setState({VideoCard: e.target.value});
-    }
-    
-    render(){
-        const CPU = this.state.CPU;
-        const CPUSpeed = this.state.CPUSpeed;
-        /*const RAM = this.state.RAM;
-        const VideoCard = this.state.VideoCard;*/
-        return(
-            <div className="check-block">
-                <h4>Checking your system requirements for install modern games at 2018 year.</h4>
-                <fieldset>
-                    <legend>CPU - type</legend>
-                        <input type="text" value={CPU} onChange={this.handleChangeCPU}/>
-                        <CheckingCPU  CPU={CPU.toString()}/>
-                </fieldset>
-                <fieldset>
-                    <legend>CPU - average frequency</legend>
-                        <input type="number" min="0" value={CPUSpeed} onChange={this.handleChangeCPUSpeed}/>
-                        <CheckingCPU CPU={CPUSpeed}/>
-                </fieldset>
-            </div>
-        );
-    }
+    return(
+      <div className="temperature-converter">
+      <h4 className="temperature-head">Synchronized Temperature Converter</h4>
+      <hr />
+        <TemperatureInput
+          scale="c"
+          temperature={celsius}
+          onTemperatureChange={this.handleCelsiusChange} />
+        <TemperatureInput
+          scale="f"
+          temperature={fahrenheit}
+          onTemperatureChange={this.handleFahrenheitChange} />
+        <TemperatureInput
+          scale="k"
+          temperature={kelvin}
+          onTemperatureChange={this.handleKelvinChange} />
+        <BoilingVerdict celsius={parseFloat(celsius)} />
+      </div>
+    );
+  }
 }
 
 ReactDOM.render(
-    <CheckSystem />,
-    document.getElementById('root')
+  <Calculator />,
+  document.getElementById("root")
 );
 registerServiceWorker();

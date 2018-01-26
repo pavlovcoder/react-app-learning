@@ -23,3 +23,42 @@ body {
 .empty {
   color: #0033cc;
 }
+
+.temperature-converter {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #0066ff;
+}
+
+.temperature-head {
+  color: #ffffff;
+  padding: 5px 10px;
+  background-color: #0066ff;
+  margin-top: 0;
+}
+
+.not-boil {
+  color: #ffffff;
+  padding: 5px 10px;
+  background-color: #0066ff;
+}
+
+.boil {
+  color: #ffffff;
+  padding: 5px 10px;
+  background-color: #ff3300;
+}
+
+hr {
+  border-color: 1px solid #0066ff;
+}
+
+fieldset {
+  margin-top: 20px;
+  border: 1px solid #0066ff;
+}
+
+fieldset:first-child {
+  margin: 0;
+  color: #0066ff;
+}

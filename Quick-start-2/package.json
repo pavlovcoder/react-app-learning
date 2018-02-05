@@ -1,5 +1,5 @@
 {
-  "name": "quick",
+  "name": "quick-start",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,8 +9,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "tsc",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.64.0",
+    "typescript": "^2.7.1"
   }
 }

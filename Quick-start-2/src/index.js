@@ -517,6 +517,39 @@ GreetingWindow.defaultProps = {
     comics: 'MARVEL'
 };
 
+//Adding ref attribute to the DOM component:
+class CustomTextInput extends React.Component {
+    constructor(props) {
+        super(props);
+        this.focusTextInput = this.focusTextInput.bind(this);
+    }
+
+    focusTextInput() {
+        this.textInput.focus();
+    }
+
+    render() {
+        return (
+            <div>
+                <input type="text" ref={(input) => {this.textInput = input; }}/>
+                <input type="button" value="Focus the next input" onClick={this.focusTextInput}/>
+            </div>
+        );
+    }
+}
+
+class AutoFocusTextInput extends React.Component {
+    componentDidMount() {
+        this.textInput.focusTextInput();
+    }
+
+    render() {
+        return (
+            <CustomTextInput ref={(input) => {this.textInput = input; }}/>
+        );
+    }
+}
+
 //Rendering multiple componenets in the one DOM element:
 let modals = (
     <div>
@@ -528,6 +561,7 @@ let modals = (
         <TodoList />
         <ListOfFifteenThings />
         <GreetingWindow />
+        <AutoFocusTextInput />
     </div>
 )
 

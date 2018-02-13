@@ -83,3 +83,7 @@ fieldset:first-child {
     padding: 15px;
     margin: 15px 0;
 }
+
+.choose-file {
+    margin-top: 20px;
+}

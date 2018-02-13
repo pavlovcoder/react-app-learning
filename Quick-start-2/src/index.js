@@ -531,7 +531,7 @@ class CustomTextInput extends React.Component {
     render() {
         return (
             <div>
-                <input type="text" ref={(input) => {this.textInput = input; }}/>
+                <input defaultValue="Vladimir Pavlov" type="text" ref={(input) => {this.textInput = input; }}/>
                 <input type="button" value="Focus the next input" onClick={this.focusTextInput}/>
             </div>
         );
@@ -550,6 +550,146 @@ class AutoFocusTextInput extends React.Component {
     }
 }
 
+class FileInput extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        alert(
+            `Selected file - ${this.fileInput.files[0].name}`
+        );
+    }
+
+    render() {
+        return (
+            <form onSubmit={this.handleSubmit} className="choose-file">
+                <label>Upload file: 
+                    <input 
+                        type="file"
+                        ref={input => {
+                            this.fileInput = input;
+                        }}
+                    />
+                </label>
+                <br/>
+                <button type="submit">Submit</button>
+            </form>
+        );
+    }
+}
+
+class ListOfWords extends React.PureComponent {
+    render() {
+        return <div>{this.props.words.join(',')}</div>;
+    }
+}
+
+class WordAdder extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            words: ['Suzuki']
+        };
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        const words = this.state.words;
+        words.push('Suzuki');
+        this.setState({words: words});
+    }
+
+    render() {
+        return (
+            <div>
+                <button onClick={this.handleClick}/>
+                <ListOfWords words={this.state.words}/>
+            </div>
+        );
+    }
+}
+
+//Declaring react classes without using ES6:
+class Greeting2 extends React.Component {
+    render() {
+        return <h1>Hello, {this.props.name}</h1>;
+    }
+}
+
+//Autobinding event handlers:
+class SayHello extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {message : 'Hello!'};
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        alert(this.state.message);
+    }
+
+    render() {
+        return (
+            <button onClick={this.handleClick}>Say hello!</button>
+        );
+    }
+}
+
+//Autobinding with Babel:
+class SayHello3 extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {message : 'Hello, my dear world!'};
+    }
+
+    handleClick = () => {
+        alert(this.state.message);
+    }
+
+    render() {
+        return (
+            <button onClick={this.handleClick}>
+                Say hello to the world!
+            </button>
+        );
+    }
+}
+
+//Autobinding all elements without ES6:
+/*var sayHello2 = createReactClass({
+    getInitialState : function() {
+        return {message : 'Hello, dear world!'};
+    },
+
+    handleClick : function() {
+        alert(this.state.message);
+    },
+
+    render : function() {
+        return (
+            <button onClick={this.handleClick}>Say hello to the world!</button>
+        )
+    }
+});*/
+
+//Create a simple block output without using JSX:
+class MyName extends React.Component {
+    render() {
+        return React.createElement('div', null, `Hi! My name is ${this.props.toName}`);
+    }
+}
+
+const e = React.createElement;
+
+class MyName2 extends React.Component {
+    render() {
+        return e('div', null, `I have a ${this.props.toAge}`);
+    }
+}
+
 //Rendering multiple componenets in the one DOM element:
 let modals = (
     <div>
@@ -562,6 +702,13 @@ let modals = (
         <ListOfFifteenThings />
         <GreetingWindow />
         <AutoFocusTextInput />
+        <FileInput />
+        <WordAdder />
+        <Greeting2 />
+        <SayHello />
+        <SayHello3 />
+        React.createElement(MyName, {toName : 'Vladimir Pavlov'}, null);
+        React.createElement(MyName2, {toAge : '21'}, null);
     </div>
 )
 
